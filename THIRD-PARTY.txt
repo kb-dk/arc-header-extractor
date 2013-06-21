@@ -1,0 +1,7 @@
+
+Lists of 5 third-party dependencies.
+     (Common Public License Version 1.0) JUnit (junit:junit:4.10 - http://junit.org)
+     (BSD style) Hamcrest Core (org.hamcrest:hamcrest-core:1.1 - no url defined)
+     (Apache License, Version 2.0) jwat-arc (org.jwat:jwat-arc:1.0.1-SNAPSHOT - https://sbforge.org/display/JWAT/JWAT/jwat-arc)
+     (Apache License, Version 2.0) jwat-common (org.jwat:jwat-common:1.0.1-SNAPSHOT - https://sbforge.org/display/JWAT/JWAT/jwat-common)
+     (Apache License, Version 2.0) jwat-gzip (org.jwat:jwat-gzip:1.0.1-SNAPSHOT - https://sbforge.org/display/JWAT/JWAT/jwat-gzip)

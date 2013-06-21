@@ -1,0 +1,7 @@
+.idea
+arc-header-extractor.iml
+atlassian-ide-plugin.xml
+target/
+target
+working/
+output/
