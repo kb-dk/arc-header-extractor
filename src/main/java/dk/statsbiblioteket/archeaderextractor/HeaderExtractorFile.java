@@ -36,8 +36,6 @@ public class HeaderExtractorFile implements ArchiveParserCallback {
 
     protected int recordNr = 1;
 
-    protected byte[] tmpBuf = new byte[8192];
-
     public HeaderExtractorFile() {
     }
 
