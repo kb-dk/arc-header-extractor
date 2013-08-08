@@ -28,10 +28,7 @@ import org.jwat.common.Payload;
 import org.jwat.common.UriProfile;
 import org.jwat.gzip.GzipEntry;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class HeaderExtractorFile implements ArchiveParserCallback {
 
@@ -69,6 +66,23 @@ public class HeaderExtractorFile implements ArchiveParserCallback {
         if (payload != null) {
             httpHeader = arcRecord.getHttpHeader();
             if (httpHeader != null) {
+                StringWriter headerString = new StringWriter();
+
+                headerString.write("URL: " + arcRecord.getUrlStr() + "\n");
+                headerString.write("IP:  " + arcRecord.getIpAddress() + "\n");
+
+                headerString.write("ProtocolVersion: " + httpHeader.getProtocolVersion() + "\n");
+                headerString.write("ProtocolStatusCode: " + httpHeader.getProtocolStatusCodeStr() + "\n");
+                headerString.write("ProtocolContentType: " + httpHeader.getProtocolContentType() + "\n");
+                headerString.write("TotalLength: " + httpHeader.getTotalLength() + "\n");
+
+                for (HeaderLine hl : httpHeader.getHeaderList()) {
+                    headerString.write(hl.name + ": " + hl.value + "\n");
+                }
+
+                headerString.write("Filename: " + fileName + "\n");
+                headerString.write("Offset: " + arcRecord.getStartOffset() + "\n");
+
                 FileWriter headerFile = new FileWriter(
                         outputDirectory.getAbsolutePath() + "/" + fileName
                                 + "-"
@@ -76,24 +90,8 @@ public class HeaderExtractorFile implements ArchiveParserCallback {
                                 + "-"
                                 + recordNr);
 
-                PrintWriter hout = new PrintWriter(headerFile);
-
-                hout.println("URL: " + arcRecord.getUrlStr());
-                hout.println("IP:  " + arcRecord.getIpAddress());
-
-                hout.println("ProtocolVersion: " + httpHeader.getProtocolVersion());
-                hout.println("ProtocolStatusCode: " + httpHeader.getProtocolStatusCodeStr());
-                hout.println("ProtocolContentType: " + httpHeader.getProtocolContentType());
-                hout.println("TotalLength: " + httpHeader.getTotalLength());
-
-                for (HeaderLine hl : httpHeader.getHeaderList()) {
-                    hout.println(hl.name + ": " + hl.value);
-                }
-
-                hout.println("Filename: " + fileName);
-                hout.println("Offset: " + arcRecord.getStartOffset());
-
-                hout.close();
+                headerFile.write(headerString.toString());
+                headerFile.close();
             }
         }
         if (httpHeader != null) {
