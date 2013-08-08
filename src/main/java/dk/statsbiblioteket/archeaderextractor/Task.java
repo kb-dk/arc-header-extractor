@@ -101,18 +101,18 @@ public class Task {
     public void fileProcessor(List<String> files, Task task, String outputPath) {
         File outputDirectory = new File(outputPath);
         if (outputDirectory.isDirectory()) {
-        for (String filename : files) {
-            try {
-                File file = new File(filename);
-                if (file.exists() && file.isFile())
-                    task.process(file, outputDirectory);
+            for (String filename : files) {
+                try {
+                    File file = new File(filename);
+                    if (file.exists() && file.isFile())
+                        task.process(file, outputDirectory);
 
-            } catch (Exception e) {
-                cout.println("File does not exists -- " + filename);
+                } catch (Exception e) {
+                    cout.println("File does not exists -- " + filename);
+                }
             }
-        }
         } else {
-           cout.println(outputPath + " is not a directory. Aborting.");
+            cout.println(outputPath + " is not a directory. Aborting.");
         }
     }
 }

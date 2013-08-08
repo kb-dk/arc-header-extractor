@@ -30,6 +30,7 @@ public class HeaderExtractorCLI {
 
     /**
      * main class called from the CLI with two parameters:
+     *
      * @param args contains two elements:
      *             0: a file name or a directory name. In the latter case all files ending with .arc will
      *             be included in the job.

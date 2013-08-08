@@ -35,87 +35,87 @@ import java.io.PrintWriter;
 
 public class HeaderExtractorFile implements ArchiveParserCallback {
 
-	protected String fileName;
+    protected String fileName;
 
-	protected int recordNr = 1;
+    protected int recordNr = 1;
 
-	protected byte[] tmpBuf = new byte[8192];
+    protected byte[] tmpBuf = new byte[8192];
 
-	public HeaderExtractorFile() {
-	}
+    public HeaderExtractorFile() {
+    }
 
-	public void processFile(File file, File outputDirectory) {
-		fileName = file.getName();
-		ArchiveParser archiveParser = new ArchiveParser();
-		archiveParser.uriProfile = UriProfile.RFC3986_ABS_16BIT_LAX;
-		archiveParser.bBlockDigestEnabled = true;
-		archiveParser.bPayloadDigestEnabled = true;
-		long consumed = archiveParser.parse(file, outputDirectory, this);
-	}
+    public void processFile(File file, File outputDirectory) {
+        fileName = file.getName();
+        ArchiveParser archiveParser = new ArchiveParser();
+        archiveParser.uriProfile = UriProfile.RFC3986_ABS_16BIT_LAX;
+        archiveParser.bBlockDigestEnabled = true;
+        archiveParser.bPayloadDigestEnabled = true;
+        long consumed = archiveParser.parse(file, outputDirectory, this);
+    }
 
-	@Override
-	public void apcFileId(File file, int fileId) {
-	}
+    @Override
+    public void apcFileId(File file, int fileId) {
+    }
 
-	@Override
-	public void apcGzipEntryStart(GzipEntry gzipEntry, long startOffset) {
-	}
+    @Override
+    public void apcGzipEntryStart(GzipEntry gzipEntry, long startOffset) {
+    }
 
-	@Override
-	public void apcArcRecordStart(ArcRecordBase arcRecord, long startOffset, boolean compressed, File outputDirectory) throws IOException {
+    @Override
+    public void apcArcRecordStart(ArcRecordBase arcRecord, long startOffset, boolean compressed, File outputDirectory) throws IOException {
         Payload payload = arcRecord.getPayload();
 
-            HttpHeader httpHeader = null;
-      		if (payload != null) {
-      			httpHeader = arcRecord.getHttpHeader();
-      			if (httpHeader != null ) {
-                      FileWriter headerFile = new FileWriter(
-                              outputDirectory.getAbsolutePath() + "/" + fileName
-                              + "-"
-                              + arcRecord.getStartOffset()
-                              + "-"
-                              + recordNr);
+        HttpHeader httpHeader = null;
+        if (payload != null) {
+            httpHeader = arcRecord.getHttpHeader();
+            if (httpHeader != null) {
+                FileWriter headerFile = new FileWriter(
+                        outputDirectory.getAbsolutePath() + "/" + fileName
+                                + "-"
+                                + arcRecord.getStartOffset()
+                                + "-"
+                                + recordNr);
 
-                      PrintWriter hout = new PrintWriter(headerFile);
+                PrintWriter hout = new PrintWriter(headerFile);
 
-                      hout.println("URL: " + arcRecord.getUrlStr());
-                      hout.println("IP:  " + arcRecord.getIpAddress());
+                hout.println("URL: " + arcRecord.getUrlStr());
+                hout.println("IP:  " + arcRecord.getIpAddress());
 
-                      hout.println("ProtocolVersion: " + httpHeader.getProtocolVersion());
-                      hout.println("ProtocolStatusCode: " + httpHeader.getProtocolStatusCodeStr());
-                      hout.println("ProtocolContentType: " + httpHeader.getProtocolContentType());
-                      hout.println("TotalLength: " + httpHeader.getTotalLength());
+                hout.println("ProtocolVersion: " + httpHeader.getProtocolVersion());
+                hout.println("ProtocolStatusCode: " + httpHeader.getProtocolStatusCodeStr());
+                hout.println("ProtocolContentType: " + httpHeader.getProtocolContentType());
+                hout.println("TotalLength: " + httpHeader.getTotalLength());
 
-                      for (HeaderLine hl: httpHeader.getHeaderList()) {
-                          hout.println(hl.name + ": " + hl.value);
-                      }
+                for (HeaderLine hl : httpHeader.getHeaderList()) {
+                    hout.println(hl.name + ": " + hl.value);
+                }
 
-                      hout.println("Filename: " + fileName);
-                      hout.println("Offset: " + arcRecord.getStartOffset());
+                hout.println("Filename: " + fileName);
+                hout.println("Offset: " + arcRecord.getStartOffset());
 
-                      hout.close();
-      			}
-      		}
-      		if (httpHeader != null) {
-      			httpHeader.close();
-      		}
-      		if (payload != null) {
-      			payload.close();
-      		}
-      		arcRecord.close();
-      		++recordNr;
-	}
+                hout.close();
+            }
+        }
+        if (httpHeader != null) {
+            httpHeader.close();
+        }
+        if (payload != null) {
+            payload.close();
+        }
+        arcRecord.close();
+        ++recordNr;
+    }
 
-	@Override
-	public void apcUpdateConsumed(long consumed) {
-	}
+    @Override
+    public void apcUpdateConsumed(long consumed) {
+    }
 
-	@Override
-	public void apcRuntimeError(Throwable t, long offset, long consumed) {
-	}
+    @Override
+    public void apcRuntimeError(Throwable t, long offset, long consumed) {
+    }
 
-	@Override
-	public void apcDone() {
-	}
+    @Override
+    public void apcDone() {
+    }
 
 }

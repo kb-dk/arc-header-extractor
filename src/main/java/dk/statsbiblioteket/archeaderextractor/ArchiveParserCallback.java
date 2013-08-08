@@ -29,16 +29,16 @@ import java.io.IOException;
 
 public interface ArchiveParserCallback {
 
-	public void apcFileId(File file, int fileId);
+    public void apcFileId(File file, int fileId);
 
-	public void apcGzipEntryStart(GzipEntry gzipEntry, long startOffset);
+    public void apcGzipEntryStart(GzipEntry gzipEntry, long startOffset);
 
-	public void apcArcRecordStart(ArcRecordBase arcRecord, long startOffset, boolean compressed, File outputDirectory) throws IOException;
+    public void apcArcRecordStart(ArcRecordBase arcRecord, long startOffset, boolean compressed, File outputDirectory) throws IOException;
 
-	public void apcUpdateConsumed(long consumed);
+    public void apcUpdateConsumed(long consumed);
 
-	public void apcRuntimeError(Throwable t, long offset, long consumed);
+    public void apcRuntimeError(Throwable t, long offset, long consumed);
 
-	public void apcDone();
+    public void apcDone();
 
 }
